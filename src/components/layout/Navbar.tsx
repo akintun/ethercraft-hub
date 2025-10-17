@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import {
@@ -8,6 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import logo from '@/assets/logo.png';
 
@@ -20,8 +21,8 @@ const navigation = [
 
 export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { address, isConnected, chain } = useAccount();
+  const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
 
   const truncateAddress = (addr: string) => {
@@ -56,21 +57,43 @@ export const Navbar = () => {
           {/* Wallet Connection */}
           <div className="hidden md:flex items-center space-x-4">
             {!isConnected ? (
-              <Button
-                onClick={() => connect({ connector: connectors[0] })}
-                variant="default"
-                className="glow-cyan"
-              >
-                Connect Wallet
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="default"
+                    className="glow-cyan"
+                    disabled={isPending}
+                  >
+                    <Wallet className="mr-2 h-4 w-4" />
+                    {isPending ? 'Connecting...' : 'Connect Wallet'}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="glass w-56">
+                  {connectors.map((connector) => (
+                    <DropdownMenuItem
+                      key={connector.id}
+                      onClick={() => connect({ connector })}
+                      className="cursor-pointer"
+                    >
+                      {connector.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="glass-hover">
+                    <Wallet className="mr-2 h-4 w-4" />
                     {truncateAddress(address!)}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="glass">
+                <DropdownMenuContent align="end" className="glass w-56">
+                  <div className="px-2 py-1.5 text-sm">
+                    <p className="text-muted-foreground">Network</p>
+                    <p className="font-medium">{chain?.name || 'Unknown'}</p>
+                  </div>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => disconnect()}>
                     Disconnect
                   </DropdownMenuItem>
@@ -107,27 +130,41 @@ export const Navbar = () => {
               </a>
             ))}
             {!isConnected ? (
-              <Button
-                onClick={() => {
-                  connect({ connector: connectors[0] });
-                  setMobileMenuOpen(false);
-                }}
-                variant="default"
-                className="w-full glow-cyan"
-              >
-                Connect Wallet
-              </Button>
+              <div className="space-y-2">
+                {connectors.map((connector) => (
+                  <Button
+                    key={connector.id}
+                    onClick={() => {
+                      connect({ connector });
+                      setMobileMenuOpen(false);
+                    }}
+                    variant="default"
+                    className="w-full glow-cyan"
+                    disabled={isPending}
+                  >
+                    <Wallet className="mr-2 h-4 w-4" />
+                    {connector.name}
+                  </Button>
+                ))}
+              </div>
             ) : (
-              <Button
-                onClick={() => {
-                  disconnect();
-                  setMobileMenuOpen(false);
-                }}
-                variant="outline"
-                className="w-full"
-              >
-                Disconnect ({truncateAddress(address!)})
-              </Button>
+              <div className="space-y-2">
+                <div className="p-3 glass rounded-lg text-sm">
+                  <p className="text-muted-foreground">Connected</p>
+                  <p className="font-medium">{truncateAddress(address!)}</p>
+                  <p className="text-muted-foreground mt-1">{chain?.name}</p>
+                </div>
+                <Button
+                  onClick={() => {
+                    disconnect();
+                    setMobileMenuOpen(false);
+                  }}
+                  variant="outline"
+                  className="w-full"
+                >
+                  Disconnect
+                </Button>
+              </div>
             )}
           </div>
         )}

@@ -14,12 +14,20 @@ const Index = () => {
       <main>
         <HeroSection />
         <PartnersSection />
-        <GameplayFeatures />
+        <section id="game">
+          <GameplayFeatures />
+        </section>
         <P2EExplanation />
-        <NFTShowcase />
-        <Roadmap />
+        <section id="marketplace">
+          <NFTShowcase />
+        </section>
+        <section id="roadmap">
+          <Roadmap />
+        </section>
       </main>
-      <Footer />
+      <section id="community">
+        <Footer />
+      </section>
     </div>
   );
 };

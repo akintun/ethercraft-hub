@@ -66,42 +66,10 @@ All colors MUST be HSL.
     --sidebar-ring: 186 100% 50%;
   }
 
+  /* .dark is the default theme, so no need to redeclare all variables. 
+     Only override what is necessary if a light theme is added later. */
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 6%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 186 100% 50%;
-    --primary-foreground: 240 10% 3.9%;
-
-    --secondary: 271 81% 56%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 5% 16%;
-    --muted-foreground: 240 5% 65%;
-
-    --accent: 330 81% 60%;
-    --accent-foreground: 0 0% 98%;
-
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 6% 15%;
-    --input: 240 6% 15%;
-    --ring: 186 100% 50%;
-    --sidebar-background: 240 10% 6%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 186 100% 50%;
-    --sidebar-primary-foreground: 240 10% 3.9%;
-    --sidebar-accent: 240 5% 16%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 6% 15%;
-    --sidebar-ring: 186 100% 50%;
   }
 }
 

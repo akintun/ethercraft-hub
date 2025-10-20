@@ -1,29 +1,48 @@
 import { useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { CONTRACTS } from '@/config/contracts';
 import { formatUnits, parseUnits } from 'viem';
+import { toast } from 'sonner';
 
 export const useGameToken = () => {
-  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { writeContractAsync, data: hash, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const handleContractWrite = async (
+    functionName: 'mint' | 'transfer', 
+    args: readonly [`0x${string}`, bigint]
+  ) => {
+    const toastId = toast.loading('Sending transaction...');
+    try {
+      const txHash = await writeContractAsync({
+        address: CONTRACTS.gameToken.address,
+        abi: CONTRACTS.gameToken.abi,
+        functionName,
+        args,
+      });
+
+      toast.success('Transaction submitted!', {
+        id: toastId,
+        description: `Hash: ${txHash}`,
+      });
+      return txHash;
+
+    } catch (error: any) {
+      toast.error('Transaction failed', {
+        id: toastId,
+        description: error.shortMessage || error.message,
+      });
+      return null;
+    }
+  };
 
   const mintTokens = (to: `0x${string}`, amount: string) => {
     const parsedAmount = parseUnits(amount, 18);
-    writeContract({
-      address: CONTRACTS.gameToken.address,
-      abi: CONTRACTS.gameToken.abi,
-      functionName: 'mint',
-      args: [to, parsedAmount] as const,
-    } as any);
+    return handleContractWrite('mint', [to, parsedAmount]);
   };
 
   const transferTokens = (to: `0x${string}`, amount: string) => {
     const parsedAmount = parseUnits(amount, 18);
-    writeContract({
-      address: CONTRACTS.gameToken.address,
-      abi: CONTRACTS.gameToken.abi,
-      functionName: 'transfer',
-      args: [to, parsedAmount] as const,
-    } as any);
+    return handleContractWrite('transfer', [to, parsedAmount]);
   };
 
   return {
@@ -41,10 +60,10 @@ export const useTokenBalance = (address?: `0x${string}`) => {
     abi: CONTRACTS.gameToken.abi,
     functionName: 'balanceOf',
     args: address ? [address] : undefined,
-  } as any);
+  });
 
   return {
-    balance: data ? formatUnits(data as bigint, 18) : '0',
+    balance: data ? formatUnits(data, 18) : '0',
     isLoading,
     refetch,
   };
@@ -55,10 +74,10 @@ export const useTotalSupply = () => {
     address: CONTRACTS.gameToken.address,
     abi: CONTRACTS.gameToken.abi,
     functionName: 'totalSupply',
-  } as any);
+  });
 
   return {
-    totalSupply: data ? formatUnits(data as bigint, 18) : '0',
+    totalSupply: data ? formatUnits(data, 18) : '0',
     isLoading,
   };
 };

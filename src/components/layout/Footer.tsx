@@ -22,6 +22,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Twitter"
               >
                 <Twitter className="h-5 w-5" />
               </a>
@@ -30,6 +31,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Discord"
               >
                 <MessageCircle className="h-5 w-5" />
               </a>
@@ -38,6 +40,7 @@ export const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="GitHub"
               >
                 <Github className="h-5 w-5" />
               </a>
@@ -64,9 +67,9 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <Link to="/whitepaper" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Whitepaper
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -103,19 +106,19 @@ export const Footer = () => {
             <h3 className="font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Terms of Service
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Privacy Policy
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/cookies" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Cookie Policy
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

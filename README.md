@@ -1,5 +1,4 @@
 
-
 ---
 
 # CryptoQuest - A Web3 Play-to-Earn Gaming Hub
@@ -8,7 +7,6 @@ CryptoQuest is a visually stunning and responsive landing page for a modern Web3
 
 Built with a professional, cutting-edge tech stack, this project showcases a "game-first" aesthetic, combining a dark, neon-infused theme with glassmorphism effects and fluid animations to create an immersive user experience.
 
- 
 *(Note: Replace with an actual screenshot of the project)*
 
 ---

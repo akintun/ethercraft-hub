@@ -10,7 +10,7 @@ Built with a professional, cutting-edge tech stack, this project showcases a "ga
 *(Note: Replace with an actual screenshot of the project)*
 
 ---
-
+thanks
 ## ✨ Key Features
 
 *   **Visually Immersive Design:** A dark, gaming-centric theme with neon highlights, gradient effects, and glassmorphism UI elements to create a premium feel.
